@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,6 +17,7 @@ class MainWindow : public QMainWindow
     QString m_filename;
     QMediaPlayer m_player;
     QPoint m_lastPosition;
+    std::vector<QString> m_musics;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -30,6 +32,7 @@ private slots:
     void durationChanged(qint64);
     void sliderMoved(int);
     void exitBtnClicked();
+    void itemDoubleClicked(QListWidgetItem*);
 
 private:
     void mousePressEvent(QMouseEvent*);

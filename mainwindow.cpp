@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_filename(QString()),
-    m_player(this)
+    m_player(this),
+    m_musics()
 {
     ui->setupUi(this);
     this->setWindowTitle("QMusic");
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | 
-        Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
     connect(&m_player, 
         SIGNAL(positionChanged(qint64)), this, 
@@ -30,6 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->exitBtn,
         SIGNAL(clicked()), this,
         SLOT(exitBtnClicked()));
+
+    connect(ui->musicList,
+        SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
+        SLOT(itemDoubleClicked(QListWidgetItem*)));
 }
 
 MainWindow::~MainWindow()
@@ -42,19 +46,23 @@ void MainWindow::on_openBtn_clicked()
     QFileDialog dialog(this);
     dialog.setNameFilter(tr("Music/Song (*.mp3)"));
     dialog.setViewMode(QFileDialog::ViewMode::Detail);
-    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
     QStringList filesList;
     if (dialog.exec()) {
         filesList = dialog.selectedFiles();
     }
 
-    if (filesList.size() > 0) {
-        m_filename = filesList[0];
-        QFileInfo info(m_filename);
-        ui->titleLbl->setText("QMusic - " + info.baseName());
-        ui->playBtn->setEnabled(true);
+    for (auto file : filesList) {
+        QFileInfo info(file);
 
-        m_player.setMedia(QUrl::fromLocalFile(m_filename));
+        if (ui->musicList->findItems(
+            info.baseName(), Qt::MatchFixedString).empty()) 
+        {
+            QListWidgetItem* item = new QListWidgetItem;
+            item->setData(Qt::UserRole, QVariant(file));
+            item->setText(info.baseName());
+            ui->musicList->addItem(item);
+        }
     }
 }
 
@@ -130,4 +138,11 @@ void MainWindow::mouseMoveEvent(QMouseEvent* event)
 void MainWindow::exitBtnClicked()
 {
     QApplication::instance()->exit();
+}
+
+void MainWindow::itemDoubleClicked(QListWidgetItem* item)
+{
+    m_player.setMedia(QUrl::fromLocalFile(
+        item->data(Qt::UserRole).toString()));
+    ui->playBtn->setEnabled(true);
 }
