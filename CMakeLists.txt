@@ -20,10 +20,10 @@ endif ()
 find_package(Qt5 COMPONENTS Widgets Multimedia MultimediaWidgets REQUIRED)
 
 add_executable(QMusic ${APPTYPE}
-  main.cpp
-  mainwindow.cpp
-  mainwindow.h
-  mainwindow.ui
+  src/main.cpp
+  src/mainwindow.cpp
+  src/mainwindow.h
+  ui/mainwindow.ui
   resources.qrc
 )
 

@@ -1,8 +1,9 @@
 <RCC>
-    <qresource prefix="/icons">
-        <file>icons/pause_icon.png</file>
-        <file>icons/play_icon.png</file>
-        <file>icons/open_icon.png</file>
-        <file>icons/close_icon.png</file>
-    </qresource>
+  <qresource prefix="/icons">
+    <file>icons/icon.png</file>
+    <file>icons/pause_icon.png</file>
+    <file>icons/play_icon.png</file>
+    <file>icons/open_icon.png</file>
+    <file>icons/close_icon.png</file>
+  </qresource>
 </RCC>

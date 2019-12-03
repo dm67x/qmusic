@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "../ui/ui_mainwindow.h"
 
 #include <QFileDialog>
 #include <QMouseEvent>
@@ -8,9 +8,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_filename(QString()),
-    m_player(this),
-    m_musics()
+    m_player(this)
 {
     ui->setupUi(this);
     this->setWindowTitle("QMusic");
@@ -144,5 +142,6 @@ void MainWindow::itemDoubleClicked(QListWidgetItem* item)
 {
     m_player.setMedia(QUrl::fromLocalFile(
         item->data(Qt::UserRole).toString()));
+    ui->titleLbl->setText("QMusic - " + item->text());
     ui->playBtn->setEnabled(true);
 }

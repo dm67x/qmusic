@@ -14,10 +14,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     Ui::MainWindow* ui;
-    QString m_filename;
     QMediaPlayer m_player;
     QPoint m_lastPosition;
-    std::vector<QString> m_musics;
 
 public:
     MainWindow(QWidget *parent = nullptr);
